@@ -8,6 +8,7 @@ Created on Mon May 09 14:10:31 2016
 import gdal,ogr
 import os
 from multiprocessing import Pool
+import numpy as np
 
 location=r'E:\WA'#raster path location###
 shloc=r'E:\WA\gis_2017'#shape location#
@@ -24,7 +25,7 @@ def get_metadata(fil):
     band=fil[:]
     date=fil[:]
     return band, date        
-def extractbypoint(shp,fil,fileout="csv"):         
+def extractbypoint(shp,fil,shID,fileout="csv"):         
     """
     """
     calcthis = [] #TODO: should I really use a list here???
@@ -49,14 +50,27 @@ def extractbypoint(shp,fil,fileout="csv"):
     rb = None
     ds = None
     layer = None ###close the datasets
-        #TODO: export to file
-    if fileout=="csv":
-        pass
+    out = np.array(calcthis)
+    band , date = get_metadata(fil)    
+    name = "{}_{}_{}.npy".format(date,band,shID)    
+    np.save(out,name)    
+    #arr = np.ma.array(calcthis)
+    #std = np.std(arr)
+    #mean = np.std(arr)   
+    
+    #return mean,std    
+
+
+    #TODO: export to file
+    #if fileout=="csv":
+     #   pass
+
+
 def apply_to_file(fil):
     """Just so that the function gets only one argument for multiprocessing
     """
-    extractbypoint(shpA,fil)
-    extractbypoint(shpB,fil)
+    extractbypoint(shpA,fil,shID = "fire")
+    extractbypoint(shpB,fil,shID = "control")
         ##NOTE if you want to use multiprocessing you should save calcthis to a file
 if __name__ == '__main__':
     pool = Pool(6)       
