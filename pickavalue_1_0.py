@@ -12,10 +12,6 @@ from multiprocessing import Pool
 location=r'E:\WA'#raster path location###
 shloc=r'E:\WA\gis_2017'#shape location#
 shas=['cooke_point','controlcookepoints']#name of the point shapefile without extension .shp It is used for logging###
-
-shpfile=shpID + '.shp'
-shp=os.path.join(shloc,shpfile)
-                                
 outputlocation=r"E:\WA\Validation_RSE_after_Reviews" ##output location
                       
 filez = [f for f in os.listdir(location) if f.endswith(".tif")]##select the tif files      
