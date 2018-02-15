@@ -22,8 +22,8 @@ shpB=os.path.join(shloc,(shas[1] + '.shp'))
 def get_metadata(fil):
     """extracts information from the filename
     """
-    band=fil[:]
-    date=fil[:]
+    band=fil[9:10]
+    date=fil[:8]
     return band, date        
 def extractbypoint(shp,fil,shID,fileout="csv"):         
     """
@@ -52,8 +52,9 @@ def extractbypoint(shp,fil,shID,fileout="csv"):
     layer = None ###close the datasets
     out = np.array(calcthis)
     band , date = get_metadata(fil)    
-    name = "{}_{}_{}.npy".format(date,band,shID)    
-    np.save(out,name)    
+    namepart = "{}_{}_{}.npy".format(date,band,shID)    
+    name = os.path.join(outputlocation,namepart)
+    np.save(name,out)    
     #arr = np.ma.array(calcthis)
     #std = np.std(arr)
     #mean = np.std(arr)   
